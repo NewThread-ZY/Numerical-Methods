@@ -1,0 +1,48 @@
+bannerInit = function () {
+    container = document.getElementById("container_ad"); 
+    bgExit = document.getElementById("background_exit_ad");
+    container.style.display = "block";
+    anim();
+};
+
+anim = function () {
+    var e = new TimelineLite();
+    e
+     .add("start")
+     .to(foreground, 0, { x: 0, y: -30, opacity: 1 }, "+=0")
+     .from(smokey, 1.5, { x: -100, y: 90, rotation: -5, ease: Back.easeOut.config(1), onComplete: smokeyBounce})
+     .from(text1, 1, { y: 90, ease: Back.easeOut.config(1) }, "-=0.5")
+     .to(text1, 0.5, { opacity: 0 }, "+=1.75")
+     .to(foreground, 0.75, { y: -98, ease: Power2.easeOut }, "+=0.15")
+     .to(foreground, 0.75, { y: -192, ease: Power2.easeOut }, "+=1.5")
+     .from(text2, 1, { y: 90, ease: Back.easeOut.config(1) }, "-=0.5")
+     .to(text2, 0.5, { opacity: 0 }, "+=1.75")
+     .to(smokey, 0.5, {x: 0, y: 5, rotation: -1, ease: Back.easeOut.config(1), onComplete: smokeyBounce2}, "-=0.25")
+     .to(white, 0.5, { opacity: 0.55 }, "-=0.5")
+     .to([logos, cta], 0.5, { opacity: 1 }, "+=0.5")
+     .to(cta, 0.25, { transformOrigin: '50% 19%', scale: 1.1, y: 0 }, "+=1")
+     .to(cta, 0.25, { transformOrigin: '50% 19%', scale: 1, y: 0, onComplete: mouseOverListener })
+     .call(function(){console.log(e.duration());})
+     .play();
+};
+
+smokeyBounce = function () {
+    TweenMax.to(smokey, 0.5, { rotation: 1, y: -8, yoyo: !0, repeat: 1 });
+};
+
+smokeyBounce2 = function () {
+    TweenMax.to(smokey, 0.35, { rotation: 0, top: 1 , yoyo: !0, repeat: 1 });
+};
+
+mouseOverListener = function () {
+    bgExit.addEventListener("mouseover", bgMouseOverHandler, !1);
+    bgExit.addEventListener("mouseout", bgMouseOutHandler, !1);
+};
+
+bgMouseOverHandler = function (e) {
+    TweenLite.to(cta, 0.25, { transformOrigin: '50% 19%', scale: 1.1, y: 0 });
+};
+
+bgMouseOutHandler = function (e) {
+    TweenLite.to(cta, 0.25, { transformOrigin: '50% 19%', scale: 1, y: 0 });
+};
